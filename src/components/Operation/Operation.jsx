@@ -70,12 +70,17 @@ const styles = theme => ({
 
 const initialFieldsState = { 1: 0, 2: 0 };
 
-const Operation = ({ classes }) => {
-    const [step, setStep] = useState(1);
+const Operation = ({ classes, setParentStep }) => {
+    const [step, setChildStep] = useState(1);
     const [fields, setFields] = useState(initialFieldsState);
     const [searchedValue, setSearchedValue] = useState('');
     const [sortMode, setSortMode] = useState(SORT_MODES.ASC);
     const [calculating, setCalculating] = useState(false);
+
+    const setStep = (step) => {
+      setChildStep(step);
+      setParentStep(step);
+    };
 
     const isFirst = step === 1;
     const isSecond = step === 2;
@@ -320,7 +325,8 @@ const Operation = ({ classes }) => {
 };
 
 Operation.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+    classes: PropTypes.objectOf(PropTypes.string).isRequired,
+    setParentStep: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Operation);

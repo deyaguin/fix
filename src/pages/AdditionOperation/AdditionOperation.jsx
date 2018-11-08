@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import UserContext from '../../user-context';
 import UserInfo from '../../components/UserInfo';
 import Operation from '../../components/Operation';
 
@@ -26,14 +27,20 @@ const styles = theme => ({
     }
 });
 
-const AdditionOperation = ({ classes }) => (
-    <section className={classes.container}>
-        <Paper className={classes.block}>
-            <UserInfo email="test" />
-            <Operation />
-        </Paper>
-    </section>
-);
+const AdditionOperation = ({ classes }) => {
+    const [step, setStep] = useState(0);
+
+    const { credentials: { email } } = useContext(UserContext);
+
+    return (
+        <section className={classes.container}>
+            <Paper className={classes.block}>
+                <UserInfo email={email} step={step} />
+                <Operation setParentStep={setStep} />
+            </Paper>
+        </section>
+    );
+};
 
 AdditionOperation.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
