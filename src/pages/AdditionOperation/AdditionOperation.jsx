@@ -28,7 +28,7 @@ const styles = theme => ({
 });
 
 const AdditionOperation = ({ classes }) => {
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(1);
 
     const { credentials: { email } } = useContext(UserContext);
 
