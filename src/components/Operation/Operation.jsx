@@ -302,7 +302,6 @@ const Operation = ({ classes }) => {
     const fourthStep = isFourth && (
         <Grow in={isFourth}>
             <section className={classes.verticalBlock}>
-                {console.log(fields)}
                 {table}
             </section>
         </Grow>
