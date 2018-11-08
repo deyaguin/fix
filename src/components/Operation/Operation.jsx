@@ -82,6 +82,8 @@ const Operation = ({ classes, setParentStep }) => {
       setParentStep(step);
     };
 
+    const fieldValueInvalid = Object.keys(fields).filter(key => fields[key] === '').length > 0;
+
     const isFirst = step === 1;
     const isSecond = step === 2;
     const isThird = step === 3;
@@ -238,7 +240,7 @@ const Operation = ({ classes, setParentStep }) => {
             {
                 !isFourth && (
                     <Button
-                        disabled={calculating}
+                        disabled={calculating || fieldValueInvalid}
                         className={classes.button}
                         variant="contained"
                         color="secondary"
