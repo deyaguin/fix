@@ -31,7 +31,7 @@ const App = () => {
         <BrowserRouter>
             <UserContext.Provider value={{ credentials, setCredentials: handleSignIn }}>
                 {
-                    isAuthorized && !isAdditionOperationPage && <Redirect to={ROUTES.ADDITION_OPERATION} />
+                    isAuthorized && !isAdditionOperationPage && <Redirect exact to={ROUTES.ADDITION_OPERATION} />
                 }
                 {
                     !isSignInPage && !isAuthorized && !isHomePage && <Redirect exact to={ROUTES.HOME} />
@@ -47,11 +47,15 @@ const App = () => {
                         path={ROUTES.SIGN_IN}
                         component={SignIn}
                     />
-                    <Route
-                        exact
-                        path={ROUTES.ADDITION_OPERATION}
-                        component={AdditionOperation}
-                    />
+                    {
+                        isAuthorized && (
+                            <Route
+                                exact
+                                path={ROUTES.ADDITION_OPERATION}
+                                component={AdditionOperation}
+                            />
+                        )
+                    }
                 </Switch>
             </UserContext.Provider>
         </BrowserRouter>
