@@ -14,11 +14,15 @@ const styles = theme => ({
         height: '100%',
     },
     block: {
-        maxWidth: 1000,
+        maxWidth: 450,
+        minHeight: 300,
         width: '100%',
         padding: theme.spacing.unit * 2,
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
+        [theme.breakpoints.down('sm')]: {
+            gridTemplateColumns: '1fr',
+        },
     }
 });
 
