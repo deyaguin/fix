@@ -10,12 +10,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Progress from '@material-ui/core/CircularProgress';
-import Grow from '@material-ui/core/Grow';
 import Typography from '@material-ui/core/Typography';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import Grow from '@material-ui/core/Grow';
 
 import { STEPS_TITLES, SORT_MODES } from '../../constants';
 
@@ -65,7 +64,7 @@ const styles = theme => ({
         flexDirection: 'column',
     },
     greenRow: {
-      backgroundColor: 'green',
+        backgroundColor: 'green',
     },
 });
 
@@ -249,8 +248,8 @@ const Operation = ({ classes }) => {
     );
 
     const firstStep = isFirst && (
-        <Grow timeout={1000} in={isFirst} className={classes.fields}>
-            <>
+        <Grow in={isFirst}>
+            <section className={classes.fields}>
                 <Button
                     className={classes.addButton}
                     variant="outlined"
@@ -271,13 +270,13 @@ const Operation = ({ classes }) => {
                         />
                     ))
                 }
-            </>
+            </section>
         </Grow>
     );
 
     const secondStep = isSecond && (
-        <Grow timeout={1000}  in={isSecond} className={classes.verticalBlock}>
-            <>
+        <Grow in={isSecond}>
+            <section className={classes.verticalBlock}>
                 <TextField
                     label="Search"
                     className={classes.field}
@@ -285,24 +284,27 @@ const Operation = ({ classes }) => {
                     onChange={handleSearchFieldChange}
                 />
                 {table}
-            </>
+            </section>
         </Grow>
     );
 
     const thirdStep = isThird && (
-      <Grow timeout={1000}  in={isThird} className={classes.loading}>
-          <>
-              <Progress />
-              <Typography variant="subtitle1">
-                  Calculating...
-              </Typography>
-          </>
-      </Grow>
+        <Grow in={isThird}>
+            <section className={classes.loading}>
+                <Progress />
+                <Typography variant="subtitle1">
+                    Calculating...
+                </Typography>
+            </section>
+        </Grow>
     );
 
     const fourthStep = isFourth && (
-        <Grow timeout={1000}  in={isFourth} className={classes.verticalBlock}>
-            {table}
+        <Grow in={isFourth}>
+            <section className={classes.verticalBlock}>
+                {console.log(fields)}
+                {table}
+            </section>
         </Grow>
     );
 
