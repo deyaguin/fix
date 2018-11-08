@@ -45,7 +45,7 @@ const SignIn = ({ classes }) => {
 
         if (!emailValidator(email) && email !== '') await setEmailError('Incorrect email');
 
-        if (email && password && !emailError && !passwordError) {
+        if (email && password && emailValidator(email) && !passwordError) {
             setCredentials({ email, password });
         } else {
             setCredentials(null);
