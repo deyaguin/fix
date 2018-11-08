@@ -4,6 +4,7 @@ import {
     Route,
     Switch,
     Redirect,
+    withRouter,
 } from 'react-router-dom';
 
 import AdditionOperation from './pages/AdditionOperation';
@@ -12,7 +13,8 @@ import Home from './pages/Home';
 import { ROUTES } from './constants';
 import UserContext from './user-context';
 
-const App = () => {
+const App = withRouter(({ location }) => {
+    const { pathname } = location;
     const initialCredentials = JSON.parse(localStorage.getItem('credentials')) || null;
 
     const handleSignIn = (credentials) => {
@@ -20,46 +22,53 @@ const App = () => {
         setCredentials(credentials);
     };
 
+    const handleSignOut = () => {
+        localStorage.removeItem('credentials');
+        setCredentials(null);
+    };
+
     const [credentials, setCredentials] = useState(initialCredentials);
 
     const isAuthorized = Boolean(credentials);
-    const isSignInPage = document.location.pathname === ROUTES.SIGN_IN;
-    const isAdditionOperationPage = document.location.pathname === ROUTES.ADDITION_OPERATION;
-    const isHomePage = document.location.pathname === ROUTES.HOME;
+    const isSignInPage = pathname === ROUTES.SIGN_IN;
+    const isAdditionOperationPage = pathname === ROUTES.ADDITION_OPERATION;
+    const isHomePage = pathname === ROUTES.HOME;
 
     return (
-        <BrowserRouter>
-            <UserContext.Provider value={{ credentials, setCredentials: handleSignIn }}>
+        <UserContext.Provider value={{ credentials, signIn: handleSignIn, signOut: handleSignOut }}>
+            {
+                isAuthorized && !isAdditionOperationPage && <Redirect exact to={ROUTES.ADDITION_OPERATION} />
+            }
+            {
+                !isSignInPage && !isAuthorized && !isHomePage && <Redirect exact to={ROUTES.HOME} />
+            }
+            <Switch>
+                <Route
+                    exact
+                    path={ROUTES.HOME}
+                    component={Home}
+                />
+                <Route
+                    exact
+                    path={ROUTES.SIGN_IN}
+                    component={SignIn}
+                />
                 {
-                    isAuthorized && !isAdditionOperationPage && <Redirect exact to={ROUTES.ADDITION_OPERATION} />
+                   isAuthorized && (
+                       <Route
+                           exact
+                           path={ROUTES.ADDITION_OPERATION}
+                           component={AdditionOperation}
+                       />
+                   )
                 }
-                {
-                    !isSignInPage && !isAuthorized && !isHomePage && <Redirect exact to={ROUTES.HOME} />
-                }
-                <Switch>
-                    <Route
-                        exact
-                        path={ROUTES.HOME}
-                        component={Home}
-                    />
-                    <Route
-                        exact
-                        path={ROUTES.SIGN_IN}
-                        component={SignIn}
-                    />
-                    {
-                        isAuthorized && (
-                            <Route
-                                exact
-                                path={ROUTES.ADDITION_OPERATION}
-                                component={AdditionOperation}
-                            />
-                        )
-                    }
-                </Switch>
-            </UserContext.Provider>
-        </BrowserRouter>
+            </Switch>
+        </UserContext.Provider>
     );
-};
+});
 
-export default App;
+export default () => (
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+);

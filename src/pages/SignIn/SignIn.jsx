@@ -29,7 +29,7 @@ const styles = theme => ({
 });
 
 const SignIn = ({ classes }) => {
-    const { setCredentials } = useContext(UserContext);
+    const { signIn } = useContext(UserContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -46,9 +46,9 @@ const SignIn = ({ classes }) => {
         if (!emailValidator(email) && email !== '') await setEmailError('Incorrect email');
 
         if (email && password && emailValidator(email) && !passwordError) {
-            setCredentials({ email, password });
+            signIn({ email, password });
         } else {
-            setCredentials(null);
+            signIn(null);
         }
     };
 

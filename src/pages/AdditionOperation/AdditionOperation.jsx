@@ -30,12 +30,12 @@ const styles = theme => ({
 const AdditionOperation = ({ classes }) => {
     const [step, setStep] = useState(1);
 
-    const { credentials: { email } } = useContext(UserContext);
+    const { credentials } = useContext(UserContext);
 
     return (
         <section className={classes.container}>
             <Paper className={classes.block}>
-                <UserInfo email={email} step={step} />
+                <UserInfo email={credentials && credentials.email} step={step} />
                 <Operation setParentStep={setStep} />
             </Paper>
         </section>
